@@ -7,7 +7,7 @@ The app I built lets you take pictures of your fish and your plants and uses AI 
 
 <img width="250" src="https://github.com/user-attachments/assets/64634b5d-ce78-4644-b128-9dd476310fee" />
 
-<img width="250"  src="https://github.com/user-attachments/assets/b2f22e69-49db-44d9-8852-770e06963187" />
+<img width="250" src="https://github.com/user-attachments/assets/e7661d09-e336-41d0-9e6a-ab5a8bbb0201" />
 
 <img width="250"  src="https://github.com/user-attachments/assets/df803194-4c05-438e-8deb-2307e5bf4e3a" />
 
