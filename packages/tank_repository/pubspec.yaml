@@ -1,0 +1,14 @@
+name: tank_repository
+description: Domain package for tank entry models and repository interface.
+version: 0.1.0
+publish_to: none
+
+environment:
+  sdk: ^3.11.4
+
+dependencies:
+  equatable: ^2.0.7
+
+dev_dependencies:
+  test: ^1.25.8
+  very_good_analysis: ^7.0.0

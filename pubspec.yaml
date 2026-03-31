@@ -1,19 +1,43 @@
 name: fish_tank_tracker
-description: "A new Flutter project."
-publish_to: 'none'
+description: A fish tank tracker app with AI-powered species identification.
+publish_to: none
 version: 0.1.0+1
 
 environment:
   sdk: ^3.11.4
 
 dependencies:
+  camera: ^0.11.0+2
+  equatable: ^2.0.7
   flutter:
     sdk: flutter
+  flutter_bloc: ^9.1.0
+  flutter_svg: ^2.2.4
+  gemini_api_client:
+    path: packages/gemini_api_client
+  go_router: ^15.1.2
+  image_cropper: ^12.1.1
+  intl: any
+  path_provider: ^2.1.5
+  secure_storage:
+    path: packages/secure_storage
+  species_identification_repository:
+    path: packages/species_identification_repository
+  tank_local_storage:
+    path: packages/tank_local_storage
+  tank_repository:
+    path: packages/tank_repository
+  water_repository:
+    path: packages/water_repository
 
 dev_dependencies:
+  bloc_test: ^10.0.0
   flutter_test:
     sdk: flutter
-  flutter_lints: ^6.0.0
+  mocktail: ^1.0.4
+  very_good_analysis: ^7.0.0
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/icons/

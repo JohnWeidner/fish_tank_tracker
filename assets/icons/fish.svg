@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+  <!-- Tail fin -->
+  <path d="M1 6.5 C4 9.5, 4 14.5, 1 17.5 C4 15.5, 6.5 14, 8 12 C6.5 10, 4 8.5, 1 6.5Z" fill="currentColor"/>
+  <!-- Body -->
+  <ellipse cx="14.5" cy="12" rx="7" ry="5" fill="currentColor"/>
+  <!-- Eye -->
+  <circle cx="18" cy="10.5" r="1.2" fill="white"/>
+  <circle cx="18.3" cy="10.3" r="0.5" fill="black"/>
+</svg>

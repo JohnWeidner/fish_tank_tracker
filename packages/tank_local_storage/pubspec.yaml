@@ -1,0 +1,24 @@
+name: tank_local_storage
+description: Data package implementing local SQLite storage for tank and water data.
+version: 0.1.0
+publish_to: none
+
+environment:
+  sdk: ^3.11.4
+
+dependencies:
+  flutter:
+    sdk: flutter
+  path: ^1.9.0
+  path_provider: ^2.1.5
+  sqflite: ^2.4.2
+  tank_repository:
+    path: ../tank_repository
+  water_repository:
+    path: ../water_repository
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  mocktail: ^1.0.4
+  very_good_analysis: ^7.0.0
