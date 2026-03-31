@@ -445,9 +445,9 @@ void main() {
         build: () {
           when(() => mockSpeciesRepo.identify(any())).thenAnswer(
             (_) async => const IdentificationResult(
-              commonName: 'Cardinal Tetra',
-              scientificName: 'Paracheirodon axelrodi',
-              type: 'livestock',
+              commonName: 'Java Fern',
+              scientificName: 'Microsorum pteropus',
+              type: 'plant',
             ),
           );
           return EntryDetailCubit(
@@ -462,20 +462,25 @@ void main() {
               .having((s) => s.isIdentifying, 'isIdentifying', true),
           isA<EntryDetailLoaded>()
               .having((s) => s.isIdentifying, 'isIdentifying', false)
-              .having((s) => s.entry.name, 'name', 'Cardinal Tetra')
+              .having((s) => s.entry.name, 'name', 'Java Fern')
               .having(
                 (s) => s.entry.scientificName,
                 'scientificName',
-                'Paracheirodon axelrodi',
+                'Microsorum pteropus',
+              )
+              .having(
+                (s) => s.entry.type,
+                'type',
+                TankEntryType.plant,
               ),
         ],
         verify: (_) {
           verify(
             () => mockTankRepository.updateEntry(
               id: 1,
-              name: 'Cardinal Tetra',
-              scientificName: 'Paracheirodon axelrodi',
-              type: TankEntryType.livestock,
+              name: 'Java Fern',
+              scientificName: 'Microsorum pteropus',
+              type: TankEntryType.plant,
             ),
           ).called(1);
         },

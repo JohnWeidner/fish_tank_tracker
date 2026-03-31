@@ -87,44 +87,43 @@ class _ReadingCard extends StatelessWidget {
                     _ParamChip(
                       label: 'pH',
                       value: reading.ph!,
-                      isWarning: reading.ph! < 6.0 || reading.ph! > 8.5,
+                      isWarning: reading.isPhWarning,
                     ),
                   if (reading.ammonia != null)
                     _ParamChip(
                       label: 'NH3',
                       value: reading.ammonia!,
-                      isWarning: reading.ammonia! > 0,
+                      isWarning: reading.isAmmoniaWarning,
                     ),
                   if (reading.nitrite != null)
                     _ParamChip(
                       label: 'NO2',
                       value: reading.nitrite!,
-                      isWarning: reading.nitrite! > 0,
+                      isWarning: reading.isNitriteWarning,
                     ),
                   if (reading.nitrate != null)
                     _ParamChip(
                       label: 'NO3',
                       value: reading.nitrate!,
-                      isWarning: reading.nitrate! > 40,
+                      isWarning: reading.isNitrateWarning,
                     ),
                   if (reading.temperature != null)
                     _ParamChip(
                       label: '°F',
                       value: reading.temperature!,
-                      isWarning: reading.temperature! < 68 ||
-                          reading.temperature! > 86,
+                      isWarning: reading.isTemperatureWarning,
                     ),
                   if (reading.gh != null)
                     _ParamChip(
                       label: 'GH',
                       value: reading.gh!,
-                      isWarning: reading.gh! < 3 || reading.gh! > 15,
+                      isWarning: reading.isGhWarning,
                     ),
                   if (reading.kh != null)
                     _ParamChip(
                       label: 'KH',
                       value: reading.kh!,
-                      isWarning: reading.kh! < 2 || reading.kh! > 12,
+                      isWarning: reading.isKhWarning,
                     ),
                 ],
               ),

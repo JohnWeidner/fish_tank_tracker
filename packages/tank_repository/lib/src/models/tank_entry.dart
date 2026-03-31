@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:tank_repository/src/models/optional.dart';
 
 /// The type of tank inhabitant.
 enum TankEntryType {
@@ -44,11 +45,16 @@ class TankEntry extends Equatable {
 
   /// Creates a copy with the given fields replaced.
   ///
-  /// Use the [scientificName] closure to distinguish between "not provided"
-  /// and "set to null": `copyWith(scientificName: () => null)`.
+  /// Wrap [scientificName] in [Optional] to distinguish between "not provided"
+  /// and "set to null":
+  /// ```dart
+  /// entry.copyWith(scientificName: Optional(null))     // clear it
+  /// entry.copyWith(scientificName: Optional('Danio'))   // set it
+  /// entry.copyWith()                                    // don't change
+  /// ```
   TankEntry copyWith({
     String? name,
-    String? Function()? scientificName,
+    Optional<String?>? scientificName,
     TankEntryType? type,
     String? imagePath,
   }) {
@@ -56,7 +62,7 @@ class TankEntry extends Equatable {
       id: id,
       name: name ?? this.name,
       scientificName: scientificName != null
-          ? scientificName()
+          ? scientificName.value
           : this.scientificName,
       type: type ?? this.type,
       imagePath: imagePath ?? this.imagePath,

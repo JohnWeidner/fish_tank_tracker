@@ -166,17 +166,20 @@ class EntryDetailCubit extends Cubit<EntryDetailState> {
 
     try {
       final result = await _speciesIdRepo.identify(_entry.imagePath);
+      final identifiedType = TankEntryType.values.byName(result.type);
       _currentName = result.commonName;
       _currentScientificName = result.scientificName;
+      _currentType = identifiedType;
       _entry = _entry.copyWith(
         name: result.commonName,
-        scientificName: () => result.scientificName,
+        scientificName: Optional(result.scientificName),
+        type: identifiedType,
       );
       await _tankRepository.updateEntry(
         id: _entry.id,
         name: result.commonName,
         scientificName: result.scientificName,
-        type: _currentType,
+        type: identifiedType,
       );
       emit(EntryDetailLoaded(entry: _entry));
     } on IdentificationFailure catch (e) {
@@ -198,7 +201,7 @@ class EntryDetailCubit extends Cubit<EntryDetailState> {
       );
       _entry = _entry.copyWith(
         name: _currentName.trim(),
-        scientificName: () => _currentScientificName,
+        scientificName: Optional(_currentScientificName),
         type: _currentType,
       );
       emit(EntryDetailLoaded(entry: _entry));

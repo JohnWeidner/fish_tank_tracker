@@ -114,7 +114,12 @@ class LocalTankRepository extends TankRepository {
     _controller.add(await _fetchEntries());
   }
 
-  /// Disposes resources.
+  /// Disposes the stream controller.
+  ///
+  /// Currently not called — the repository is a singleton that lives for the
+  /// app's lifetime, and the OS reclaims resources on exit. If the repository
+  /// becomes scoped (e.g., per-user after adding auth), call this from a
+  /// lifecycle observer or when the scope ends.
   void dispose() {
     _controller.close();
   }

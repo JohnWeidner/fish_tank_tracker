@@ -52,6 +52,13 @@ class AppDatabase {
           )
         ''');
       },
+      onUpgrade: (db, oldVersion, newVersion) async {
+        // Migrations go here when schema changes.
+        // Example:
+        // if (oldVersion < 2) {
+        //   await db.execute('ALTER TABLE tank_entries ADD COLUMN ...');
+        // }
+      },
     );
   }
 

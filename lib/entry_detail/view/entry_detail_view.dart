@@ -59,87 +59,109 @@ class _EntryDetailViewState extends State<EntryDetailView> {
         final cubit = context.read<EntryDetailCubit>();
 
         return Scaffold(
-          appBar: AppBar(
-            actions: [
-              if (state.isIdentifying)
-                const Padding(
-                  padding: EdgeInsets.all(12),
-                  child: SizedBox(
-                    width: 24,
-                    height: 24,
-                    child: CircularProgressIndicator(strokeWidth: 2),
+          appBar: AppBar(),
+          body: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: MediaQuery.sizeOf(context).height * 0.45,
+                  width: double.infinity,
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      Hero(
+                        tag: 'entry-${entry.id}',
+                        child: Image.file(
+                          File(entry.imagePath),
+                          fit: BoxFit.contain,
+                          width: double.infinity,
+                          errorBuilder: (context, error, stackTrace) {
+                            return const Center(
+                              child:
+                                  Icon(Icons.broken_image, size: 64),
+                            );
+                          },
+                        ),
+                      ),
+                      Positioned(
+                        left: 0,
+                        right: 0,
+                        bottom: 12,
+                        child: Center(
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 4,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .surfaceContainerHighest
+                                  .withValues(alpha: 0.85),
+                              borderRadius: BorderRadius.circular(24),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                IconButton(
+                                  onPressed: () =>
+                                      _cropImage(context, cubit, entry),
+                                  icon: const Icon(Icons.crop),
+                                  tooltip: 'Crop',
+                                ),
+                                IconButton(
+                                  onPressed: () =>
+                                      _retakePhoto(context, cubit),
+                                  icon: const Icon(Icons.camera_alt),
+                                  tooltip: 'Retake',
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                )
-              else if (cubit.hasAi)
-                IconButton(
-                  icon: const Icon(Icons.auto_awesome),
-                  onPressed: cubit.reidentify,
                 ),
-              if (cubit.isNewEntry)
-                IconButton(
-                  icon: const Icon(Icons.close),
-                  onPressed: () => _showCancelConfirmation(context, cubit),
-                )
-              else
-                IconButton(
-                  icon: const Icon(Icons.undo),
-                  onPressed: () => _showRevertConfirmation(context, cubit),
-                ),
-              IconButton(
-                icon: const Icon(Icons.delete_outline),
-                onPressed: () => _showDeleteConfirmation(context, entry),
-              ),
-            ],
-          ),
-          body: Column(
-            children: [
-              Expanded(
-                flex: 3,
-                child: Stack(
-                  fit: StackFit.expand,
-                  children: [
-                    Hero(
-                      tag: 'entry-${entry.id}',
-                      child: Image.file(
-                        File(entry.imagePath),
-                        fit: BoxFit.contain,
-                        width: double.infinity,
-                        errorBuilder: (context, error, stackTrace) {
-                          return const Center(
-                            child: Icon(Icons.broken_image, size: 64),
-                          );
-                        },
-                      ),
-                    ),
-                    Positioned(
-                      right: 12,
-                      bottom: 12,
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          IconButton.filled(
-                            onPressed: () =>
-                                _cropImage(context, cubit, entry),
-                            icon: const Icon(Icons.crop),
-                          ),
-                          const SizedBox(width: 8),
-                          IconButton.filled(
-                            onPressed: () => _retakePhoto(context, cubit),
-                            icon: const Icon(Icons.camera_alt),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Expanded(
-                flex: 2,
-                child: SingleChildScrollView(
+                Padding(
                   padding: const EdgeInsets.all(24),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      // AI identification button — placed near the fields
+                      // it fills in.
+                      if (cubit.hasAi)
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 16),
+                          child: state.isIdentifying
+                              ? const Center(
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      SizedBox(
+                                        width: 16,
+                                        height: 16,
+                                        child:
+                                            CircularProgressIndicator(
+                                          strokeWidth: 2,
+                                        ),
+                                      ),
+                                      SizedBox(width: 8),
+                                      Text('Identifying...'),
+                                    ],
+                                  ),
+                                )
+                              : Center(
+                                  child: ActionChip(
+                                    avatar:
+                                        const Icon(Icons.auto_awesome),
+                                    label:
+                                        const Text('Identify with AI'),
+                                    onPressed: cubit.reidentify,
+                                  ),
+                                ),
+                        ),
                       TextField(
                         controller: _nameController,
                         onChanged: cubit.updateName,
@@ -202,11 +224,47 @@ class _EntryDetailViewState extends State<EntryDetailView> {
                                   .onSurfaceVariant,
                             ),
                       ),
+                      const SizedBox(height: 32),
+                      // Action buttons at the bottom.
+                      if (cubit.isNewEntry)
+                        SizedBox(
+                          width: double.infinity,
+                          child: OutlinedButton(
+                            onPressed: () =>
+                                _showCancelConfirmation(context, cubit),
+                            child: const Text('Discard Entry'),
+                          ),
+                        )
+                      else
+                        SizedBox(
+                          width: double.infinity,
+                          child: OutlinedButton(
+                            onPressed: () =>
+                                _showRevertConfirmation(context, cubit),
+                            child: const Text('Revert Changes'),
+                          ),
+                        ),
+                      const SizedBox(height: 12),
+                      SizedBox(
+                        width: double.infinity,
+                        child: FilledButton(
+                          onPressed: () =>
+                              _showDeleteConfirmation(context, entry),
+                          style: FilledButton.styleFrom(
+                            backgroundColor:
+                                Theme.of(context).colorScheme.error,
+                            foregroundColor:
+                                Theme.of(context).colorScheme.onError,
+                          ),
+                          child: const Text('Delete Entry'),
+                        ),
+                      ),
+                      const SizedBox(height: 24),
                     ],
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         );
       },
@@ -237,6 +295,8 @@ class _EntryDetailViewState extends State<EntryDetailView> {
     BuildContext context,
     EntryDetailCubit cubit,
   ) async {
+    // Uses Navigator.push instead of go_router because the camera
+    // returns a result via pop(), like a picker.
     final newPath = await Navigator.of(context).push<String>(
       MaterialPageRoute<String>(
         builder: (_) => const CameraPage(),

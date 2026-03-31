@@ -133,6 +133,7 @@ class _CameraPageState extends State<CameraPage> {
           child: Padding(
             padding: const EdgeInsets.all(24),
             child: FloatingActionButton.large(
+              heroTag: null,
               onPressed: _capturePhoto,
               child: const Icon(Icons.camera_alt),
             ),

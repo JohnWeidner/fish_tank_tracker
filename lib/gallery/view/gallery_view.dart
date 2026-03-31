@@ -125,6 +125,8 @@ class _GalleryContent extends StatelessWidget {
   }
 
   Future<void> _addEntry(BuildContext context) async {
+    // Uses Navigator.push instead of go_router because the camera
+    // returns a result via pop(), like a picker.
     final imagePath = await Navigator.of(context).push<String>(
       MaterialPageRoute<String>(
         builder: (_) => const CameraPage(),
